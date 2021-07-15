@@ -4,31 +4,33 @@ import { connect } from "react-redux";
 
 class Cart extends Component {
   renderBill = () => {
-    return this.props.burger.map((burger, index) => {
+    return this.props.burger.map((item, index) => {
       return (
         <tr key={index}>
-          <td>{burger.name}</td>
+          <td>{item.name}</td>
           <td>
             <button
               style={{ width: 35, height: 35 }}
               className="btn btn-success mr-2 "
-              onClick={() => {}}
+              onClick={() => {
+                this.props.addBurgerMid(item.name, true);
+              }}
             >
               <span className="button-center">+</span>
             </button>
-            {burger.amount}
+            {item.amount}
             <button
               style={{ width: 35, height: 35 }}
               className="btn btn-danger  ml-2"
-              onClick={() => {}}
+              onClick={() => {
+                this.props.addBurgerMid(item.name, false);
+              }}
             >
               -
             </button>
           </td>
-          <td>{this.props.menu[burger.name]}</td>
-          <td>
-            {(burger.amount * this.props.menu[burger.name]).toLocaleString()}
-          </td>
+          <td>{this.props.menu[item.name]}</td>
+          <td>{(item.amount * this.props.menu[item.name]).toLocaleString()}</td>
         </tr>
       );
     });
@@ -36,7 +38,9 @@ class Cart extends Component {
   render() {
     return (
       <div className="cart">
-        <h3 className="cart__title text-center text-success my-4">Chọn thức ăn</h3>
+        <h3 className="cart__title text-center text-success my-4">
+          Chọn thức ăn
+        </h3>
         <table className="table">
           <thead>
             <tr>
@@ -51,7 +55,7 @@ class Cart extends Component {
             <td></td>
             <td></td>
             <td className="sumMoney">Tổng cộng: </td>
-            <td className="sumMoney"></td>
+            <td className="sumMoney">{this.props.total.toLocaleString()}</td>
           </tfoot>
         </table>
       </div>
@@ -66,4 +70,17 @@ const mapStateToProps = (state) => {
     total: state.BurgerReducer.total,
   };
 };
-export default connect(mapStateToProps)(Cart);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addBurgerMid: (name, isTrue) => {
+      let action = {
+        type: "TANG_GIAM",
+        name,
+        isTrue,
+      };
+      dispatch(action);
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
