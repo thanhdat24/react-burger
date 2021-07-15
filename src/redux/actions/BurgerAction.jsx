@@ -1,9 +1,9 @@
 import { TANG_GIAM } from "../types/BurgerType";
 
-export const tangGiam = (name, tangGiam) => {
+export const addBurgerMid = (name, isTrue) => {
   return {
     type: TANG_GIAM,
     name,
-    tangGiam,
+    isTrue,
   };
 };

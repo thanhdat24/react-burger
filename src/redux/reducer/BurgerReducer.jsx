@@ -1,3 +1,5 @@
+import { TANG_GIAM } from "../types/BurgerType";
+
 const burgerState = {
   burger: [
     { name: "salad", amount: 1 },
@@ -14,7 +16,7 @@ const burgerState = {
 
 export const BurgerReducer = (state = burgerState, action) => {
   switch (action.type) {
-    case "TANG_GIAM": {
+    case TANG_GIAM: {
       let newBurger = [...state.burger];
       let index = state.burger.findIndex((item) => item.name === action.name);
 

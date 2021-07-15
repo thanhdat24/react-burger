@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import { addBurgerMid } from "../redux/actions/BurgerAction";
 import { connect } from "react-redux";
 
 class Cart extends Component {
@@ -74,12 +75,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addBurgerMid: (name, isTrue) => {
-      let action = {
-        type: "TANG_GIAM",
-        name,
-        isTrue,
-      };
-      dispatch(action);
+      dispatch(addBurgerMid(name, isTrue));
     },
   };
 };
