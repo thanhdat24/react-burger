@@ -3,35 +3,71 @@ import React, { Component } from "react";
 import { addBurgerMid } from "../redux/actions/BurgerAction";
 import { connect } from "react-redux";
 
+const plusAmount = 1;
+const minusAmount = -1;
 class Cart extends Component {
+  // renderBill = () => {
+  //   return this.props.burger.map((item, index) => {
+  //     return (
+  //       <tr key={index}>
+  //         <td>{item.name}</td>
+  //         <td>
+  //           <button
+  //             style={{ width: 35, height: 35 }}
+  //             className="btn btn-success mr-2 "
+  //             onClick={() => {
+  //               this.props.addBurgerMid(item.name, plusAmount);
+  //             }}
+  //           >
+  //             <span className="button-center">+</span>
+  //           </button>
+  //           {item.amount}
+  //           <button
+  //             style={{ width: 35, height: 35 }}
+  //             className="btn btn-danger  ml-2"
+  //             onClick={() => {
+  //               this.props.addBurgerMid(item.name, minusAmount);
+  //             }}
+  //           >
+  //             -
+  //           </button>
+  //         </td>
+  //         <td>{this.props.menu[item.name]}</td>
+  //         <td>{(item.amount * this.props.menu[item.name]).toLocaleString()}</td>
+  //       </tr>
+  //     );
+  //   });
+  // };
+
   renderBill = () => {
-    return this.props.burger.map((item, index) => {
+    let { menu, burger } = this.props;
+    return Object.entries(menu).map(([propsMenu, price], index) => {
       return (
         <tr key={index}>
-          <td>{item.name}</td>
+          <td>{propsMenu}</td>
           <td>
             <button
               style={{ width: 35, height: 35 }}
               className="btn btn-success mr-2 "
               onClick={() => {
-                this.props.addBurgerMid(item.name, true);
+                this.props.addBurgerMid(propsMenu, plusAmount);
               }}
             >
               <span className="button-center">+</span>
             </button>
-            {item.amount}
+            {burger[propsMenu]}
             <button
               style={{ width: 35, height: 35 }}
               className="btn btn-danger  ml-2"
               onClick={() => {
-                this.props.addBurgerMid(item.name, false);
+                this.props.addBurgerMid(propsMenu, minusAmount);
               }}
             >
               -
             </button>
           </td>
-          <td>{this.props.menu[item.name]}</td>
-          <td>{(item.amount * this.props.menu[item.name]).toLocaleString()}</td>
+          <td>{price}</td>
+          <td>{burger[propsMenu] * price.toLocaleString()}</td>
         </tr>
       );
     });
@@ -53,10 +89,11 @@ class Cart extends Component {
           </thead>
           <tbody>{this.renderBill()}</tbody>
           <tfoot>
-            <td></td>
-            <td></td>
-            <td className="sumMoney">Tổng cộng: </td>
-            <td className="sumMoney">{this.props.total.toLocaleString()}</td>
+            <tr>
+              <td colSpan={2}></td>
+              <td className="sumMoney">Tổng cộng: </td>
+              <td className="sumMoney">{this.props.total.toLocaleString()}</td>
+            </tr>
           </tfoot>
         </table>
       </div>
@@ -74,8 +111,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addBurgerMid: (name, isTrue) => {
-      dispatch(addBurgerMid(name, isTrue));
+    addBurgerMid: (propsBurger, amount) => {
+      dispatch(addBurgerMid(propsBurger, amount));
     },
   };
 };
